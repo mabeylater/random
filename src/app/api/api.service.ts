@@ -9,8 +9,10 @@ import { BpData } from '../shared/models';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { config } from '../../config/config'
+
 export const firebaseConfig = {
-  apiKey: "AIzaSyC7rAs2gLRBfGn4A25YEN5MQA55et6Eat4",
+  apiKey: config.api_key,
   authDomain: "mabey-dev-random-409c1.firebaseapp.com",
   projectId: "mabey-dev-random-409c1",
   storageBucket: "mabey-dev-random-409c1.appspot.com",
@@ -48,7 +50,7 @@ export class ApiService {
 
   async getBpDataById(id: string) {
     const docSnap = await getDoc(doc(this.db, bpDataPath, id));
-    if(docSnap.exists()) {
+    if (docSnap.exists()) {
       return docSnap.data() as BpData;
     }
     return null;
@@ -58,10 +60,10 @@ export class ApiService {
     const bpRef = collection(this.db, bpDataPath);
     const queryStatement = query(bpRef, orderBy("date", 'desc'));
     const querySnapShot = await getDocs(queryStatement)
-    if(!querySnapShot.empty) {
+    if (!querySnapShot.empty) {
       return querySnapShot
         .docs
-        .map(x => { return {...(x.data() as BpData), id: x.id}})
+        .map(x => { return { ...(x.data() as BpData), id: x.id } })
     }
     return null;
   }
