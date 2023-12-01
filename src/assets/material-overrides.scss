@@ -1,0 +1,34 @@
+@use "@angular/material" as mat;
+@include mat.core();
+@import './shared.scss';
+
+$mabey-dev-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $mabey-dev-primary,
+      accent: $mabey-dev-accent,
+      warn: $mabey-dev-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($mabey-dev-theme);
+
+mat-card.mat-elevation-z0 {
+  @include mat.elevation(0);
+  background-color: unset;
+}
+
+mat-icon.big-icon {
+  height: 64px;
+  width: 64px;
+  font-size: 64px;
+}
+
+mat-icon.button-icon {
+  margin-right: 1rem;
+}
+
+.full mat-form-field {
+  width: 100%;
+}

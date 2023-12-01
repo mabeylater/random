@@ -1,0 +1,146 @@
+@import "../../assets/shared.scss";
+
+.game-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.game-buttons button {
+  padding: 1rem;
+}
+
+.game-buttons mat-icon {
+  height: 96px;
+  width: 96px;
+  font-size: 96px;
+  color: inherit;
+}
+
+.selected-option button {
+  background-color: #212121;
+  color: #fff;
+}
+.selected-option.user {
+  color: $accent-color;
+}
+.selected-option.bot {
+  color: $warn-color;
+}
+.selected-option.tie button {
+  border-bottom: 1px #fff solid;
+  color: #fff;
+}
+.selected-option.user button {
+  border-bottom: 1px $accent-color solid;
+  color: $accent-color;
+}
+.selected-option.bot button {
+  border-bottom: 1px $warn-color solid;
+  color: $warn-color;
+}
+
+mat-progress-bar {
+  width: 300px;
+}
+
+$table-border: #fff 4px solid;
+$table-size: 300px;
+$table-cell-size: calc($table-size / 3);
+$table-cell-font-size: calc($table-cell-size / 2);
+
+table.tic-tac-toe {
+  margin-top: 1rem;
+  width: $table-size;
+
+  border-spacing: 0px;
+
+  tr td {
+    width: $table-cell-size;
+    height: $table-cell-size;
+    text-align: center;
+    * {
+      width: $table-cell-size;
+      height: $table-cell-size;
+      font-size: $table-cell-font-size;
+    }
+  }
+
+  .mat-mdc-button {
+    border-radius: 0px;
+  }
+
+  .x .mat-mdc-button:disabled{
+    color: $accent-color;
+  }
+  .o .mat-mdc-button:disabled{
+    color: $warn-color;
+  }
+
+  .winner.o {
+    background-color: $warn-color;
+  }
+  .winner.x {
+    background-color: $accent-color;
+  }
+
+  .winner .mat-mdc-button:disabled{
+    color: #fff;
+  }
+
+  tr.top-row {
+    td {
+      border-bottom: $table-border
+    }
+    td:first-of-type {
+      border-right: $table-border;
+    }
+    td:last-of-type {
+      border-left: $table-border;
+    }
+  }
+  tr.middle-row {
+    td {
+      border: none;
+    }
+    td:first-of-type {
+      border-right: $table-border
+    }
+    td:last-of-type {
+      border-left: $table-border
+    }
+  }
+  tr.bottom-row {
+    td {
+      border-top: $table-border;
+      border-bottom: none;
+    }
+    td:first-of-type {
+      border-right: $table-border;
+    }
+    td:last-of-type {
+      border-left: $table-border;
+    }
+  }
+}
+
+
+$table-size-small: calc($table-size / 2);
+$table-cell-size-small: calc($table-size-small / 3);
+$table-cell-font-size-small: calc($table-cell-size-small / 2);
+@media only screen and (max-width: 720px) {
+  table.tic-tac-toe {
+    width: $table-size-small;
+
+    tr td {
+      width: $table-cell-size-small;
+      height: $table-cell-size-small;
+      text-align: center-small;
+      * {
+        width: $table-cell-size-small;
+        height: $table-cell-size-small;
+        font-size: $table-cell-font-size-small;
+      }
+    }
+  }
+}

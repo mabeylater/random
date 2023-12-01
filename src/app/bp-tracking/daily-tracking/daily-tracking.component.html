@@ -1,0 +1,10 @@
+<mat-list>
+  <mat-list-item
+    >Date: {{ (bpData$ | async)?.date }} at
+    {{ (bpData$ | async)?.time }}</mat-list-item
+  >
+  <mat-list-item
+    >{{ (bpData$ | async)?.systolic }}/{{ (bpData$ | async)?.diastolic }} -
+    {{ (bpData$ | async)?.category?.name }}</mat-list-item
+  >
+</mat-list>

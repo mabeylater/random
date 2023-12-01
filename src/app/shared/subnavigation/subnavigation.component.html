@@ -1,0 +1,42 @@
+<button *ngIf="!mainNavOpen" mat-mini-fab (click)="toggleNav()" class="sub-sidenav-toggle" [class.icons-only-nav]="!navOpen">
+  <mat-icon>{{navOpen ? 'chevron_left' : 'chevron_right'}}</mat-icon>
+</button>
+<mat-sidenav-container class="sub-sidenav-container" [autosize]="true">
+  <mat-sidenav
+    class="sub-sidenav"
+    fixedInViewport
+    fixedTopGap="64"
+    fixedBottomGap="0"
+    [attr.role]="'navigation'"
+    [mode]="'side'"
+    [opened]="!mainNavOpen"
+    [class.icons-only-nav]="!navOpen"
+  >
+    <app-navigation-list
+      [navigationElements]="navigationRoutes"
+      (navigate)="onNavChange($event)"
+      [iconsOnly]="!navOpen"
+    >
+    </app-navigation-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="nested-toolbar">
+      <mat-icon disabled></mat-icon>
+      <span>{{ pageTitle$ | async }}</span>
+    </mat-toolbar>
+    <div class="nested-section">
+      <router-outlet></router-outlet>
+      <ng-container *ngIf="isSectionHomePage()">
+        <mat-action-list>
+          <mat-list-item disabled *ngIf="!!pageSubtitle">{{pageSubtitle}}</mat-list-item>
+          <ng-container *ngFor="let item of navigationRoutes">
+            <a mat-list-item *ngIf="item.path !== basepath" [routerLink]="item.path">
+              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+              <span>{{item.title}}</span>
+            </a>
+          </ng-container>
+        </mat-action-list>
+      </ng-container>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,32 @@
+@import './shared.scss';
+
+.flexed-row-wrap,
+.flexed-row-wrap-reverse,
+.flexed-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.flexed-row-wrap {
+  flex-wrap: wrap;
+}
+
+.flexed-row-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.nested-section {
+  overflow: auto;
+  padding: 1rem;
+  margin: auto;
+}
+
+.file-text-container {
+  background-color: $primary-color;
+  padding: 1rem;
+  padding-top: 0rem;
+  max-height: 400px;
+  overflow: auto;
+  margin-bottom: 1rem;
+}

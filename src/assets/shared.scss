@@ -1,0 +1,18 @@
+@use "@angular/material" as mat;
+
+/**
+PALETTES
+*/
+$mabey-dev-primary: mat.define-palette(mat.$grey-palette, 900);
+$mabey-dev-accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$mabey-dev-warn: mat.define-palette(mat.$red-palette);
+
+/**
+COLORS
+*/
+
+$accent-color: mat.get-color-from-palette($mabey-dev-accent);
+$primary-color: mat.get-color-from-palette($mabey-dev-primary);
+$primary-light-color: mat.get-color-from-palette($mabey-dev-primary, 800);
+$warn-color: mat.get-color-from-palette($mabey-dev-warn);
+$green-color: rgba(0, 255, 0, .54);

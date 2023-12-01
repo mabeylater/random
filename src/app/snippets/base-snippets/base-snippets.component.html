@@ -1,0 +1,18 @@
+<ng-container *ngIf="!!files">
+  <ng-container *ngFor="let file of files">
+    <mat-toolbar>
+      <span>{{file.name}}</span>
+      <span style="flex: auto"></span>
+      <button [matTooltip]="file.showText ? 'Collapse' : 'Expand'" mat-icon-button (click)="file.showText = !file.showText">
+        <mat-icon>{{file.showText ? 'expand_less' : 'expand_more'}}</mat-icon>
+      </button>
+      <a matTooltip="Download File" mat-icon-button [href]="file.url">
+        <mat-icon>download</mat-icon>
+      </a>
+    </mat-toolbar>
+    <mat-divider></mat-divider>
+    <div *ngIf="file.showText" class="file-text-container">
+      <pre>{{ file.text }}</pre>
+    </div>
+  </ng-container>
+</ng-container>

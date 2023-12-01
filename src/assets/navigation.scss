@@ -1,0 +1,91 @@
+@import './shared.scss';
+
+.active-route.mdc-list-item,
+.active-route.mdc-list-item:focus {
+  background-color: $accent-color;
+  color: $primary-color;
+  -webkit-tap-highlight-color: unset;
+}
+
+.sidenav-container {
+  height: calc(100% - 64px);
+}
+
+.sub-sidenav,
+.sidenav {
+  width: 300px;
+
+  mat-nav-list {
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+}
+
+.sub-sidenav.icons-only-nav {
+  width: 56px;
+}
+
+.sidenav .mat-toolbar,
+.sub-sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 64px;
+}
+
+.sub-sidenav-container {
+  height: calc(100% - 64px);
+}
+
+.nested-toolbar {
+  background-color: $primary-light-color;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 56px;
+}
+
+.sub-sidenav-toggle {
+  position: fixed !important;
+  left: 276px;
+  top: 72px;
+  z-index: 99;
+}
+
+.sub-sidenav-toggle.icons-only-nav {
+  position: fixed !important;
+  left: 48px;
+  top: 72px;
+  z-index: 99;
+}
+
+@keyframes fadein {
+  0% { opacity: 0 }
+  50% { opacity: .5 }
+  100% { opacity: 1 }
+}
+
+@keyframes fadeout {
+  0% { opacity: 1 }
+  50% { opacity: .5 }
+  100% { opacity: 0 }
+}
+
+.sub-nav-children,
+.fade-in {
+  opacity: 1;
+  animation: fadein 1s linear;
+}
+
+.fade-out {
+  opacity: 0;
+  animation: fadeout 2s linear;
+}
+
+.title-item {
+  background-color: $primary-color !important;
+}
