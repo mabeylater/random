@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/api/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NavigationElement } from 'src/app/shared/models';
@@ -11,6 +12,10 @@ import { SubnavigationComponent } from 'src/app/shared/subnavigation/subnavigati
   templateUrl: './bp-tracking.component.html'
 })
 export class BpTrackingComponent extends SubnavigationComponent implements OnInit {
+  api = inject(ApiService);
+  auth = inject(AuthService);
+  fb = inject(FormBuilder);
+
   bpData!: BpData[];
   isLoggedIn = false;
 
@@ -20,6 +25,17 @@ export class BpTrackingComponent extends SubnavigationComponent implements OnIni
     return null;
   }
 
+  addBpForm = this.fb.group({
+    date: [null, Validators.required],
+    time: [null, Validators.required],
+    systolic: [null, Validators.required],
+    diastolic: [null, Validators.required],
+  });
+
+  get bpFormData() {
+    return this.addBpForm.value as Partial<BpData>
+  }
+
   override basepath: string = '/bp-tracking';
   override pageSubtitle: string = 'BP Metrics';
   override navigationRoutes: NavigationElement[] = appNavigation['bp'];
@@ -27,9 +43,6 @@ export class BpTrackingComponent extends SubnavigationComponent implements OnIni
   selectedId?: string;
   isCreateMode = false;
   chartData?: any;
-
-  api = inject(ApiService);
-  auth = inject(AuthService);
 
   override ngOnInit() {
     super.ngOnInit();
@@ -54,24 +67,32 @@ export class BpTrackingComponent extends SubnavigationComponent implements OnIni
     this.isCreateMode = true;
   }
 
-  save(date: string, time: string, systolic: number, diastolic: number) {
+  save() {
     this.api.postBpData({
-      date,
-      time,
-      systolic,
-      diastolic,
-      category: getCategory(systolic, diastolic)
+      date: this.bpFormData.date,
+      time: this.bpFormData.time,
+      systolic: this.bpFormData.systolic,
+      diastolic: this.bpFormData.diastolic,
+      category: getCategory(
+        this.bpFormData.systolic as number,
+        this.bpFormData.diastolic as number
+      )
     }).then(data => {
       this.api.getBpData();
       this.router.navigate([this.basepath, data.id]);
       this.selectedId = data.id;
       this.isCreateMode = false;
       this.getChartData();
+      this.addBpForm.reset();
     })
   }
 
   getChartData() {
     if (!!this.bpData)
       this.chartData = chartData(this.bpData);
+  }
+
+  selectBp() {
+    this.router.navigate([this.basepath, this.selectedId]);
   }
 }

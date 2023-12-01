@@ -1,57 +1,69 @@
-<div *ngIf="!isLoggedIn" style="width: 600px; max-width: 100%; margin: auto; margin-top: 10%;">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Please Login to View this Data</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-    <mat-list class="full">
-      <mat-list-item>
-        <mat-form-field>
-          <input matInput #username type="text" placeholder="username">
-        </mat-form-field>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-form-field>
-          <input matInput #password type="password" placeholder="password">
-        </mat-form-field>
-      </mat-list-item>
-    </mat-list>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="login(username.value, password.value)">Login</button>
-    </mat-card-actions>
-  </mat-card>
-
+<div
+  *ngIf="!isLoggedIn"
+  style="width: 600px; max-width: 100%; margin: auto; margin-top: 10%"
+>
+  <form>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Please Login to View this Data</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list class="full">
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput #username type="text" placeholder="username" />
+            </mat-form-field>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput #password type="password" placeholder="password" />
+            </mat-form-field>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="login(username.value, password.value)">
+          Login
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </div>
-
-<div style="display: flex; flex-wrap: wrap-reverse" *ngIf="isLoggedIn">
-  <div style="width: 300px" class="full">
-    <mat-action-list>
-      <mat-list-item (click)="addBp()">
-        <mat-icon matListItemIcon>add</mat-icon>
-        <span>Create</span>
-      </mat-list-item>
-    </mat-action-list>
-    <mat-list>
-      <ng-container *ngIf="isCreateMode">
+<div style="padding: 1rem; max-width: 900px" class="full" *ngIf="isLoggedIn">
+  <div class="flexed-row v-center">
+    <mat-form-field>
+      <mat-select [(ngModel)]="selectedId" (selectionChange)="selectBp()">
+        <mat-option *ngFor="let bp of bpData" [value]="bp.id">
+          {{ bp.date }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button (click)="addBp()" *ngIf="!isCreateMode">
+      <mat-icon matListItemIcon>add</mat-icon>
+      <span>Create</span>
+    </button>
+  </div>
+  <ng-container *ngIf="isCreateMode">
+    <form [formGroup]="addBpForm">
+      <mat-list>
         <mat-list-item>
           <mat-form-field>
-            <input matInput type="text" #date placeholder="date" />
+            <input matInput type="text" formControlName="date" placeholder="date" />
           </mat-form-field>
         </mat-list-item>
         <mat-list-item>
           <mat-form-field>
-            <input matInput type="text" #time placeholder="time" />
+            <input matInput type="text" formControlName="time" placeholder="time" />
           </mat-form-field>
         </mat-list-item>
         <mat-list-item>
           <mat-form-field>
-            <input matInput type="number" #systolic placeholder="systolic" />
+            <input matInput type="number" formControlName="systolic" placeholder="systolic" />
           </mat-form-field>
         </mat-list-item>
         <mat-list-item>
           <mat-form-field>
-            <input matInput type="number" #diastolic placeholder="diastolic" />
+            <input matInput type="number" formControlName="diastolic" placeholder="diastolic" />
           </mat-form-field>
         </mat-list-item>
         <mat-list-item align="end">
@@ -60,47 +72,33 @@
             <span>Cancel</span>
           </button>
           <button
-          color="accent"
-            (click)="
-              save(date.value, time.value, +systolic.value, +diastolic.value)
-            "
+            color="accent"
+            (click)="save()"
             mat-raised-button
+            [disabled]="addBpForm.invalid"
           >
             <mat-icon matListItemIcon>save</mat-icon>
             <span>Save</span>
           </button>
         </mat-list-item>
-      </ng-container>
-    </mat-list>
-    <mat-action-list>
-      <a
-        *ngFor="let bp of bpData"
-        [routerLink]="[bp.id]"
-        mat-list-item
-        [activated]="selectedId === bp.id"
-        [class.active-route]="selectedId === bp.id"
-        (click)="selectedId = bp.id"
-        >{{ bp.date }}</a
+      </mat-list>
+    </form>
+  </ng-container>
+  <router-outlet></router-outlet>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Averages</mat-card-title>
+      <mat-card-subtitle
+        >Category: {{ bpAverages?.category }}</mat-card-subtitle
       >
-    </mat-action-list>
-  </div>
-  <div style="flex: auto; padding: 1rem">
-    <router-outlet></router-outlet>
-    <mat-card style="max-width: 900px">
-      <mat-card-header>
-        <mat-card-title>Averages</mat-card-title>
-        <mat-card-subtitle
-          >Category: {{ bpAverages?.category }}</mat-card-subtitle
-        >
-        <mat-card-subtitle
-          >Systolic: {{ bpAverages?.systolic }}</mat-card-subtitle
-        >
-        <mat-card-subtitle
-          >Diastolic: {{ bpAverages?.diastolic }}</mat-card-subtitle
-        >
-      </mat-card-header>
-      <canvas *ngIf="!!chartData" baseChart [data]="chartData" [type]="'line'">
-      </canvas>
-    </mat-card>
-  </div>
+      <mat-card-subtitle
+        >Systolic: {{ bpAverages?.systolic }}</mat-card-subtitle
+      >
+      <mat-card-subtitle
+        >Diastolic: {{ bpAverages?.diastolic }}</mat-card-subtitle
+      >
+    </mat-card-header>
+    <canvas *ngIf="!!chartData" baseChart [data]="chartData" [type]="'line'">
+    </canvas>
+  </mat-card>
 </div>
