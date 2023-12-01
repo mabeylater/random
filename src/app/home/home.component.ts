@@ -7,17 +7,6 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-home',
   template: `
-  <style>
-    .cat {
-      width: 100%;
-      height: 300px;
-      background-position: center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-  </style>
-  <div class="cat" style="background-image: url('https://cataas.com/cat');"></div>
-  <mat-divider></mat-divider>
   <mat-action-list *ngFor="let nav of navItems | keyvalue; let i = index" [style.padding-top]="'0px'">
     <ng-container *ngIf="nav.key !== 'main' && nav.key !== 'bp'">
       <ng-container *ngFor="let item of nav.value">
@@ -33,4 +22,5 @@ import { Observable, map } from 'rxjs';
 })
 export class HomeComponent extends BaseTemplateComponent {
   navItems = appNavigation
+  windowSize = window.innerWidth
 }
